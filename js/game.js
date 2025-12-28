@@ -6,8 +6,7 @@ class GameManager {
             teams: 2,
             timePerTurn: 30,
             rounds: 10,
-            wordsMode: 'single', // 'single' o 'multiple'
-            starsMode: 'no' // 'no', 'a', 'b'
+            wordsMode: 'single' // 'single' o 'multiple'
         };
         
         this.teams = [];
@@ -78,7 +77,7 @@ class GameManager {
     }
 
     /**
-     * Obtiene las categorías disponibles según el modo estrellas
+     * Obtiene las categorías disponibles
      */
     getAvailableCategories() {
         if (!this.wordsData || !this.wordsData.categorias) {
@@ -86,22 +85,12 @@ class GameManager {
             return [];
         }
 
-        let categories = [...this.wordsData.categorias];
-        console.log('Total de categorías:', categories.length);
-
-        // Filtrar según modo estrellas
-        if (this.config.starsMode === 'no') {
-            categories = categories.filter(cat => 
-                !cat.nombre.includes('Estrellas')
-            );
-        } else if (this.config.starsMode === 'a') {
-            categories = categories.filter(cat => 
-                !cat.nombre.includes('Estrellas Grupo B')
-            );
-        }
-        // Si es modo 'b', incluir todas las categorías
-
-        console.log('Categorías disponibles después del filtro:', categories.length);
+        // Excluir categorías de estrellas
+        const categories = this.wordsData.categorias.filter(cat => 
+            !cat.nombre.includes('Estrellas')
+        );
+        
+        console.log('Total de categorías disponibles:', categories.length);
         return categories;
     }
 

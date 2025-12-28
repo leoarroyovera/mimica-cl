@@ -34,8 +34,7 @@ function initMenu() {
         teams: 2,
         time: 30,
         rounds: 10,
-        wordsMode: 'single',
-        starsMode: 'no'
+        wordsMode: 'single'
     };
 
     // Seleccionar opciones por defecto
@@ -43,7 +42,6 @@ function initMenu() {
     updateMenuSelection('time', '30');
     updateMenuSelection('rounds', '10');
     updateMenuSelection('words-mode', 'single');
-    updateMenuSelection('stars-mode', 'no');
 }
 
 /**
@@ -98,8 +96,7 @@ async function startGame() {
         teams: parseInt(currentConfig.teams),
         timePerTurn: parseInt(currentConfig.time),
         rounds: parseInt(currentConfig.rounds),
-        wordsMode: currentConfig['words-mode'],
-        starsMode: currentConfig['stars-mode']
+        wordsMode: currentConfig['words-mode']
     };
 
     // Inicializar juego

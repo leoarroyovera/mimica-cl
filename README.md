@@ -7,7 +7,6 @@ Aplicación web progresiva (PWA) para jugar a la mímica en Samsung Frame y Fire
 - Compatible con navegadores web de Samsung Frame (Tizen) y Firestick 4K
 - Navegación optimizada para control remoto
 - Configuración personalizable de equipos, tiempo, rondas y modos de juego
-- Modo estrellas con categorías especiales
 - Diseño optimizado para TV (1920x1080)
 
 ## Estructura del Proyecto
@@ -50,10 +49,6 @@ frame-mimica/
 - **Una palabra**: Solo una palabra por turno
 - **Múltiples palabras**: Varias palabras por turno (botón "Siguiente" disponible)
 
-### Modo Estrellas
-- **NO**: No se incluyen categorías de estrellas
-- **A**: Se incluye la categoría "Estrellas Grupo A"
-- **B**: Se incluyen las categorías "Estrellas Grupo A" y "Estrellas Grupo B"
 
 ## Imágenes
 
