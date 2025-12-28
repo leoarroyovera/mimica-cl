@@ -1,0 +1,417 @@
+/* Reset y Variables */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #2d5aa0;
+    --secondary-color: #4a90e2;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --bg-dark: #1a1a1a;
+    --bg-darker: #0f0f0f;
+    --text-light: #ffffff;
+    --text-muted: #cccccc;
+    --team-red: #e74c3c;
+    --team-blue: #3498db;
+    --team-yellow: #f1c40f;
+    --team-green: #2ecc71;
+    --focus-color: #4a90e2;
+    --focus-outline: 4px solid var(--focus-color);
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-darker) 100%);
+    color: var(--text-light);
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+/* Pantallas */
+.screen {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.screen.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    padding: 40px;
+    text-align: center;
+}
+
+/* Títulos */
+.title {
+    font-size: 3.5rem;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+}
+
+h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Secciones de Configuración */
+.config-section {
+    margin-bottom: 50px;
+}
+
+.config-section h2 {
+    font-size: 2rem;
+    margin-bottom: 25px;
+    color: var(--text-muted);
+}
+
+.option-group {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Botones */
+.option-btn {
+    padding: 20px 40px;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    min-width: 150px;
+}
+
+.option-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.option-btn:focus,
+.option-btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+    background: rgba(74, 144, 226, 0.3);
+    border-color: var(--focus-color);
+}
+
+.option-btn.selected {
+    background: var(--primary-color);
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+}
+
+.primary-btn {
+    padding: 25px 60px;
+    font-size: 2rem;
+    background: var(--primary-color);
+    border: none;
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.primary-btn:hover {
+    background: var(--secondary-color);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.primary-btn:focus,
+.primary-btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+    background: var(--secondary-color);
+}
+
+.secondary-btn {
+    padding: 20px 50px;
+    font-size: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    color: var(--text-light);
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.secondary-btn:focus,
+.secondary-btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+    background: rgba(74, 144, 226, 0.3);
+    border-color: var(--focus-color);
+}
+
+/* Pantalla de Inicio de Turno */
+.turn-start-content {
+    text-align: center;
+}
+
+.team-name {
+    font-size: 4rem;
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+}
+
+.category-text {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    color: var(--text-muted);
+}
+
+/* Pantalla de Juego */
+.game-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer {
+    position: absolute;
+    top: 30px;
+    left: 50px;
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--warning-color);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px 40px;
+    border-radius: 15px;
+    border: 3px solid var(--warning-color);
+}
+
+.turn-number {
+    position: absolute;
+    top: 30px;
+    right: 50px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--text-light);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px 40px;
+    border-radius: 15px;
+    border: 3px solid var(--text-light);
+}
+
+.game-content {
+    text-align: center;
+    width: 90%;
+    max-width: 1000px;
+}
+
+.word-image-container {
+    margin-bottom: 40px;
+}
+
+.word-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+}
+
+.word-text {
+    font-size: 6rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    line-height: 1.2;
+    color: var(--text-light);
+}
+
+.category-text-small {
+    font-size: 1.8rem;
+    color: var(--text-muted);
+    margin-bottom: 50px;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+/* Pantalla de Fin de Turno */
+.score-section {
+    margin-bottom: 50px;
+}
+
+.score-text {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.highlight {
+    color: var(--warning-color);
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.scoreboard {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    padding: 40px;
+    margin-bottom: 40px;
+}
+
+.turns-remaining {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.turns-remaining-label {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+}
+
+.turns-remaining-number {
+    font-weight: bold;
+    color: var(--warning-color);
+    transition: font-size 0.3s ease;
+    display: inline-block;
+}
+
+.teams-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.team-score-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    padding: 20px 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-size: 1.8rem;
+}
+
+.team-score-name {
+    font-weight: bold;
+}
+
+.team-score-points {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+/* Colores de Equipos */
+.team-red {
+    color: var(--team-red);
+    border-left: 5px solid var(--team-red);
+}
+
+.team-blue {
+    color: var(--team-blue);
+    border-left: 5px solid var(--team-blue);
+}
+
+.team-yellow {
+    color: var(--team-yellow);
+    border-left: 5px solid var(--team-yellow);
+}
+
+.team-green {
+    color: var(--team-green);
+    border-left: 5px solid var(--team-green);
+}
+
+/* Pantalla de Ganador */
+.winner-title {
+    font-size: 5rem;
+    margin-bottom: 50px;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+    color: var(--warning-color);
+}
+
+.winner-team {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 60px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Responsive para TV */
+@media (min-width: 1920px) {
+    .word-text {
+        font-size: 8rem;
+    }
+    
+    .title {
+        font-size: 4.5rem;
+    }
+    
+    .timer {
+        font-size: 5rem;
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.screen.active {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Asegurar que los elementos enfocados sean visibles */
+*:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 4px;
+}
+

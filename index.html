@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Aplicación de mímica para Samsung Frame y Firestick 4K">
+    <title>Mímica - Juego de Equipos</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Pantalla de Menú de Configuración -->
+    <div id="menu-screen" class="screen active">
+        <div class="container">
+            <h1 class="title">Configuración del Juego</h1>
+            
+            <div class="config-section">
+                <h2>Número de Equipos</h2>
+                <div class="option-group">
+                    <button class="option-btn" data-option="teams" data-value="2" tabindex="1">2 Equipos</button>
+                    <button class="option-btn" data-option="teams" data-value="3" tabindex="2">3 Equipos</button>
+                    <button class="option-btn" data-option="teams" data-value="4" tabindex="3">4 Equipos</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h2>Tiempo por Turno</h2>
+                <div class="option-group">
+                    <button class="option-btn" data-option="time" data-value="15" tabindex="4">15 seg</button>
+                    <button class="option-btn" data-option="time" data-value="30" tabindex="5">30 seg</button>
+                    <button class="option-btn" data-option="time" data-value="45" tabindex="6">45 seg</button>
+                    <button class="option-btn" data-option="time" data-value="60" tabindex="7">60 seg</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h2>Cantidad de Rondas</h2>
+                <div class="option-group">
+                    <button class="option-btn" data-option="rounds" data-value="10" tabindex="8">10 Rondas</button>
+                    <button class="option-btn" data-option="rounds" data-value="20" tabindex="9">20 Rondas</button>
+                    <button class="option-btn" data-option="rounds" data-value="30" tabindex="10">30 Rondas</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h2>Modo de Palabras</h2>
+                <div class="option-group">
+                    <button class="option-btn" data-option="words-mode" data-value="single" tabindex="11">Una palabra</button>
+                    <button class="option-btn" data-option="words-mode" data-value="multiple" tabindex="12">Múltiples palabras</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <h2>Modo Estrellas</h2>
+                <div class="option-group">
+                    <button class="option-btn" data-option="stars-mode" data-value="no" tabindex="13">NO</button>
+                    <button class="option-btn" data-option="stars-mode" data-value="a" tabindex="14">A</button>
+                    <button class="option-btn" data-option="stars-mode" data-value="b" tabindex="15">B</button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <button id="start-game-btn" class="primary-btn" tabindex="16">Comenzar Juego</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Inicio de Turno -->
+    <div id="turn-start-screen" class="screen">
+        <div class="container">
+            <div class="turn-start-content">
+                <h2 id="team-turn-name" class="team-name"></h2>
+                <p id="turn-category" class="category-text"></p>
+                <button id="begin-turn-btn" class="primary-btn" tabindex="1">Comenzar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Juego -->
+    <div id="game-screen" class="screen">
+        <div class="game-container">
+            <div id="timer" class="timer">00</div>
+            <div id="turn-number" class="turn-number">Turno 1</div>
+            <div class="game-content">
+                <div id="word-image-container" class="word-image-container">
+                    <img id="word-image" class="word-image" alt="" onerror="this.style.display='none'; this.parentElement.style.display='none';">
+                </div>
+                <h1 id="word-text" class="word-text"></h1>
+                <p id="category-text" class="category-text-small"></p>
+                <div class="game-buttons">
+                    <button id="prev-word-btn" class="secondary-btn" style="display: none;" tabindex="2">Anterior</button>
+                    <button id="next-word-btn" class="primary-btn" tabindex="1">Siguiente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla de Fin de Turno -->
+    <div id="turn-end-screen" class="screen">
+        <div class="container">
+            <h2 class="title">Fin del Turno</h2>
+            <div class="score-section">
+                <p class="score-text">Puntos ganados este turno: <span id="turn-points" class="highlight">0</span></p>
+            </div>
+            <div class="scoreboard">
+                <h3>Marcador General</h3>
+                <div id="turns-remaining" class="turns-remaining"></div>
+                <div id="scoreboard-teams" class="teams-list"></div>
+            </div>
+            <button id="continue-btn" class="primary-btn" tabindex="1">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Ganador -->
+    <div id="winner-screen" class="screen">
+        <div class="container">
+            <h1 class="winner-title">¡Equipo Ganador!</h1>
+            <div id="winner-team" class="winner-team"></div>
+            <button id="play-again-btn" class="primary-btn" tabindex="1">Jugar Otra Vez</button>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/navigation.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
+
