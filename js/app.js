@@ -313,6 +313,9 @@ function handlePreviousWord() {
 function endTurn() {
     gameManager.stopTimer();
     
+    // Restaurar fondo por defecto
+    resetBackgroundColor();
+    
     const turnResult = gameManager.endTurn();
     
     // Mostrar resultados del turno
@@ -398,9 +401,28 @@ function showWinnerScreen() {
 }
 
 /**
+ * Cambia el color de fondo según el equipo
+ */
+function changeBackgroundColor(color) {
+    document.body.style.background = color;
+    document.body.style.backgroundImage = 'none';
+}
+
+/**
+ * Restaura el fondo por defecto
+ */
+function resetBackgroundColor() {
+    document.body.style.background = '';
+    document.body.style.backgroundImage = '';
+}
+
+/**
  * Reinicia el juego
  */
 function playAgain() {
+    // Restaurar fondo por defecto
+    resetBackgroundColor();
+    
     gameManager.reset();
     showScreen(AppState.MENU);
     initMenu();
