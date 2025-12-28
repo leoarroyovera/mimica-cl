@@ -4,7 +4,7 @@
   "description": "Aplicación de mímica para jugar en equipo",
   "start_url": "./index.html",
   "scope": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#1a1a1a",
   "theme_color": "#2d5aa0",
   "orientation": "landscape",

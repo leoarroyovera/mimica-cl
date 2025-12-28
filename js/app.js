@@ -12,6 +12,45 @@ const AppState = {
 let currentState = AppState.MENU;
 let currentConfig = {};
 
+// Función para entrar en fullscreen
+function requestFullscreen() {
+    const elem = document.documentElement;
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(err => {
+            console.log('Error al entrar en fullscreen:', err);
+        });
+    } else if (elem.webkitRequestFullscreen) { // Safari/WebKit
+        elem.webkitRequestFullscreen();
+    } else if (elem.mozRequestFullScreen) { // Firefox
+        elem.mozRequestFullScreen();
+    } else if (elem.msRequestFullscreen) { // IE/Edge
+        elem.msRequestFullscreen();
+    } else if (elem.webkitEnterFullscreen) { // iOS Safari
+        elem.webkitEnterFullscreen();
+    }
+}
+
+// Función para salir de fullscreen
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+}
+
+// Verificar si está en fullscreen
+function isFullscreen() {
+    return !!(document.fullscreenElement || 
+              document.webkitFullscreenElement || 
+              document.mozFullScreenElement || 
+              document.msFullscreenElement);
+}
+
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
     // Registrar Service Worker
@@ -23,6 +62,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initMenu();
     initEventListeners();
+    
+    // Intentar entrar en fullscreen al cargar
+    setTimeout(() => {
+        if (!isFullscreen()) {
+            requestFullscreen();
+        }
+    }, 500);
+    
+    // Intentar fullscreen cuando el usuario interactúe (algunos navegadores requieren interacción)
+    const tryFullscreenOnInteraction = () => {
+        if (!isFullscreen()) {
+            requestFullscreen();
+        }
+    };
+    
+    // Intentar en el primer clic
+    document.addEventListener('click', tryFullscreenOnInteraction, { once: true });
+    
+    // Intentar en el primer uso del teclado/control remoto
+    document.addEventListener('keydown', tryFullscreenOnInteraction, { once: true });
 });
 
 /**
