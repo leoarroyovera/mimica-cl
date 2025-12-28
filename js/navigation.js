@@ -9,11 +9,13 @@ class NavigationManager {
 
     init() {
         // Event listeners para teclado y control remoto
-        document.addEventListener('keydown', (e) => this.handleKeyPress(e));
-        document.addEventListener('keyup', (e) => this.handleKeyUp(e));
-        
-        // Soporte para eventos de TV/control remoto
+        // Usar capture phase para capturar eventos antes de que otros los manejen
+        document.addEventListener('keydown', (e) => this.handleKeyPress(e), true);
+        document.addEventListener('keyup', (e) => this.handleKeyUp(e), true);
         window.addEventListener('keydown', (e) => this.handleKeyPress(e), true);
+        
+        // También escuchar eventos en el body
+        document.body.addEventListener('keydown', (e) => this.handleKeyPress(e), true);
         
         // Auto-focus al cargar
         if (document.readyState === 'loading') {
@@ -72,48 +74,84 @@ class NavigationManager {
     }
 
     /**
-     * Maneja las pulsaciones de teclas
+     * Maneja las pulsaciones de teclas - Versión mejorada para controles remotos de TV
      */
     handleKeyPress(event) {
-        const { key, code, keyCode } = event;
+        const { key, code, keyCode, which } = event;
         
-        // Mapear códigos de teclas comunes de control remoto
-        const keyMap = {
-            'ArrowUp': 'ArrowUp',
-            'ArrowDown': 'ArrowDown',
-            'ArrowLeft': 'ArrowLeft',
-            'ArrowRight': 'ArrowRight',
-            'Enter': 'Enter',
-            ' ': 'Enter',
-            'OK': 'Enter',
-            'Select': 'Enter'
-        };
-
-        // Detectar códigos de teclas de control remoto (códigos numéricos comunes)
-        let mappedKey = keyMap[key] || key;
+        // Log para depuración (comentar en producción)
+        console.log('Key event:', { key, code, keyCode, which });
         
-        // Si es un código de tecla numérico, mapearlo
-        if (keyCode === 13 || keyCode === 32) {
-            mappedKey = 'Enter';
-        } else if (keyCode >= 37 && keyCode <= 40) {
-            const arrowMap = { 37: 'ArrowLeft', 38: 'ArrowUp', 39: 'ArrowRight', 40: 'ArrowDown' };
-            mappedKey = arrowMap[keyCode];
+        // Mapeo completo de códigos de teclas para controles remotos de TV
+        let direction = null;
+        let shouldActivate = false;
+        
+        // Detectar flechas direccionales por key
+        if (key === 'ArrowUp' || key === 'Up') {
+            direction = 'ArrowUp';
+        } else if (key === 'ArrowDown' || key === 'Down') {
+            direction = 'ArrowDown';
+        } else if (key === 'ArrowLeft' || key === 'Left') {
+            direction = 'ArrowLeft';
+        } else if (key === 'ArrowRight' || key === 'Right') {
+            direction = 'ArrowRight';
         }
-
-        // Flechas direccionales
-        if (mappedKey === 'ArrowUp' || mappedKey === 'ArrowDown' || 
-            mappedKey === 'ArrowLeft' || mappedKey === 'ArrowRight') {
+        // Detectar por keyCode (códigos numéricos)
+        else if (keyCode === 38 || which === 38) {
+            direction = 'ArrowUp';
+        } else if (keyCode === 40 || which === 40) {
+            direction = 'ArrowDown';
+        } else if (keyCode === 37 || which === 37) {
+            direction = 'ArrowLeft';
+        } else if (keyCode === 39 || which === 39) {
+            direction = 'ArrowRight';
+        }
+        // Detectar por code (códigos de teclas físicas)
+        else if (code === 'ArrowUp' || code === 'KeyW') {
+            direction = 'ArrowUp';
+        } else if (code === 'ArrowDown' || code === 'KeyS') {
+            direction = 'ArrowDown';
+        } else if (code === 'ArrowLeft' || code === 'KeyA') {
+            direction = 'ArrowLeft';
+        } else if (code === 'ArrowRight' || code === 'KeyD') {
+            direction = 'ArrowRight';
+        }
+        // Detectar media keys comunes en controles remotos
+        else if (code === 'MediaTrackPrevious' || keyCode === 177) {
+            direction = 'ArrowLeft';
+        } else if (code === 'MediaTrackNext' || keyCode === 176) {
+            direction = 'ArrowRight';
+        } else if (code === 'MediaPlayPause' || keyCode === 179) {
+            // Play/Pause puede ser Enter
+            shouldActivate = true;
+        }
+        // Detectar Enter/OK
+        else if (key === 'Enter' || key === 'OK' || key === 'Select' || 
+                 keyCode === 13 || which === 13 || 
+                 code === 'Enter' || code === 'NumpadEnter') {
+            shouldActivate = true;
+        }
+        // Detectar Espacio
+        else if (key === ' ' || keyCode === 32 || which === 32 || code === 'Space') {
+            shouldActivate = true;
+        }
+        
+        // Manejar navegación direccional
+        if (direction) {
             event.preventDefault();
             event.stopPropagation();
-            this.navigateWithArrows(mappedKey);
+            event.stopImmediatePropagation();
+            this.navigateWithArrows(direction);
             return false;
         }
-        // Enter o Espacio para activar
-        else if (mappedKey === 'Enter') {
+        
+        // Manejar activación (Enter/OK)
+        if (shouldActivate) {
             const focused = document.activeElement;
             if (focused && (focused.tagName === 'BUTTON' || focused.hasAttribute('tabindex'))) {
                 event.preventDefault();
                 event.stopPropagation();
+                event.stopImmediatePropagation();
                 // Pequeño delay para feedback visual
                 setTimeout(() => {
                     focused.click();
@@ -127,7 +165,10 @@ class NavigationManager {
 
     handleKeyUp(event) {
         // Prevenir comportamiento por defecto en keyup también
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(event.key)) {
+        const { key, keyCode, which } = event;
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Enter', ' '].includes(key) ||
+            (keyCode >= 37 && keyCode <= 40) || keyCode === 13 || keyCode === 32 ||
+            (which >= 37 && which <= 40) || which === 13 || which === 32) {
             event.preventDefault();
         }
     }
@@ -165,6 +206,9 @@ class NavigationManager {
             
             // Enfocar el elemento
             element.focus();
+            
+            // Forzar el focus visual
+            element.style.outline = '4px solid var(--focus-color)';
         }
     }
 
@@ -208,4 +252,3 @@ class NavigationManager {
 
 // Instancia global del gestor de navegación
 const navigationManager = new NavigationManager();
-
