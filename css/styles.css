@@ -234,6 +234,9 @@ h3 {
 
 .word-image-container {
     margin-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .word-image {
@@ -241,8 +244,8 @@ h3 {
     height: 200px;
     object-fit: contain;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px;
+    display: block;
+    margin: 0 auto;
 }
 
 .word-text {

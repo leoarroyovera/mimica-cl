@@ -32,7 +32,11 @@ class GameManager {
         // Cargar datos de palabras
         try {
             const response = await fetch('data/words.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             this.wordsData = await response.json();
+            console.log('Palabras cargadas:', this.wordsData.categorias.length, 'categorías');
         } catch (error) {
             console.error('Error cargando palabras:', error);
             // Datos por defecto si falla la carga
@@ -78,10 +82,12 @@ class GameManager {
      */
     getAvailableCategories() {
         if (!this.wordsData || !this.wordsData.categorias) {
+            console.error('No hay datos de palabras cargados');
             return [];
         }
 
         let categories = [...this.wordsData.categorias];
+        console.log('Total de categorías:', categories.length);
 
         // Filtrar según modo estrellas
         if (this.config.starsMode === 'no') {
@@ -95,6 +101,7 @@ class GameManager {
         }
         // Si es modo 'b', incluir todas las categorías
 
+        console.log('Categorías disponibles después del filtro:', categories.length);
         return categories;
     }
 
@@ -117,12 +124,14 @@ class GameManager {
         
         // Seleccionar palabras
         if (this.config.wordsMode === 'multiple') {
-            // Seleccionar múltiples palabras aleatorias
-            const shuffledWords = shuffleArray([...this.currentCategory.palabras]);
-            this.currentWords = shuffledWords.slice(0, Math.min(5, shuffledWords.length));
+            // En modo múltiples palabras, empezamos con una palabra aleatoria
+            // y seguiremos agregando más cuando se presione "Siguiente"
+            this.currentWords = [getRandomElement(this.currentCategory.palabras)];
+            this.usedWords = new Set([this.currentWords[0]]); // Rastrear palabras usadas
         } else {
             // Una sola palabra
             this.currentWords = [getRandomElement(this.currentCategory.palabras)];
+            this.usedWords = null;
         }
 
         this.currentWordIndex = 0;
@@ -150,12 +159,30 @@ class GameManager {
      * Avanza a la siguiente palabra y suma un punto
      */
     nextWord() {
-        if (this.currentWordIndex < this.currentWords.length - 1) {
+        // Si es modo múltiples palabras, seleccionar nueva palabra aleatoria
+        if (this.config.wordsMode === 'multiple') {
+            // Obtener palabras disponibles (que no se hayan usado)
+            const availableWords = this.currentCategory.palabras.filter(
+                word => !this.usedWords.has(word)
+            );
+            
+            // Si no hay más palabras disponibles, usar todas de nuevo
+            if (availableWords.length === 0) {
+                this.usedWords.clear();
+                availableWords.push(...this.currentCategory.palabras);
+            }
+            
+            // Seleccionar nueva palabra aleatoria
+            const newWord = getRandomElement(availableWords);
+            this.usedWords.add(newWord);
+            this.currentWords.push(newWord);
             this.currentWordIndex++;
             this.turnPoints++;
             return true;
+        } else {
+            // Modo una palabra: no hay más palabras
+            return false;
         }
-        return false;
     }
 
     /**
