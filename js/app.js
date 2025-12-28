@@ -178,6 +178,9 @@ function showTurnStart() {
 
     const { team, category } = turnData;
     
+    // Cambiar fondo según el equipo
+    changeBackgroundColor(team.bgColor);
+    
     // Mostrar información del turno
     const teamNameEl = document.getElementById('team-turn-name');
     teamNameEl.textContent = `Comienza Equipo ${team.name}`;
@@ -193,6 +196,13 @@ function showTurnStart() {
  * Comienza el turno (muestra la pantalla de juego)
  */
 function beginTurn() {
+    // Obtener el equipo actual para mantener el color de fondo
+    const teamIndex = gameManager.teamOrder[gameManager.currentTeamIndex % gameManager.teamOrder.length];
+    const team = gameManager.teams[teamIndex];
+    
+    // Mantener el color de fondo del equipo
+    changeBackgroundColor(team.bgColor);
+    
     showScreen(AppState.GAME);
     
     // Iniciar temporizador solo al comenzar el turno
@@ -374,9 +384,13 @@ function showWinnerScreen() {
             `<div class="${t.class}">Equipo ${t.name} - ${t.points} puntos</div>`
         ).join('<br>');
         winnerEl.className = 'winner-team';
+        // Fondo por defecto para empate
+        resetBackgroundColor();
     } else {
         winnerEl.textContent = `Equipo ${winner.name}`;
         winnerEl.className = `winner-team ${winner.class}`;
+        // Fondo del equipo ganador
+        changeBackgroundColor(winner.bgColor);
     }
 
     showScreen(AppState.WINNER);

@@ -61,10 +61,10 @@ class GameManager {
      */
     createTeams() {
         const teamConfigs = [
-            { color: 'red', name: 'Manzana', class: 'team-red' },
-            { color: 'blue', name: 'Arándano', class: 'team-blue' },
-            { color: 'yellow', name: 'Plátano', class: 'team-yellow' },
-            { color: 'green', name: 'Limón', class: 'team-green' }
+            { color: 'red', name: 'Rojo', class: 'team-red', bgColor: '#e74c3c' },
+            { color: 'blue', name: 'Azul', class: 'team-blue', bgColor: '#3498db' },
+            { color: 'yellow', name: 'Amarillo', class: 'team-yellow', bgColor: '#f1c40f' },
+            { color: 'green', name: 'Verde', class: 'team-green', bgColor: '#2ecc71' }
         ];
 
         this.teams = [];
