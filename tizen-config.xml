@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" 
+        xmlns:tizen="http://tizen.org/ns/widgets" 
+        id="http://mimica.app/MimicaApp" 
+        version="1.0.0" 
+        viewmodes="maximized">
+    <name>Mímica</name>
+    <content src="index.html"/>
+    <feature name="http://tizen.org/feature/screen.size.normal.1080.1920"/>
+    
+    <tizen:application id="com.mimica.app" 
+                       package="com.mimica.app" 
+                       required_version="6.0"/>
+    
+    <tizen:profile name="tv"/>
+    
+    <tizen:setting screen-orientation="landscape" 
+                   context-menu="enable" 
+                   background-support="disable" 
+                   encryption="disable" 
+                   install-location="auto" 
+                   hwkey-event="enable"/>
+    
+    <!-- Deshabilitar soporte de mouse para forzar uso de control remoto -->
+    <tizen:setting pointing-device-support="disable"/>
+    
+    <icon src="icon.png"/>
+    
+    <!-- Privilegios necesarios -->
+    <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+    <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+    
+    <!-- Metadatos -->
+    <tizen:metadata key="http://samsung.com/tv/metadata/preload" value="true"/>
+</widget>
+
