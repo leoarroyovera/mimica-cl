@@ -6,7 +6,7 @@ class GameManager {
             teams: 2,
             timePerTurn: 30,
             rounds: 10,
-            wordsMode: 'single' // 'single' o 'multiple'
+            wordsMode: 'multiple' // 'single' o 'multiple'
         };
         
         this.teams = [];
@@ -170,6 +170,7 @@ class GameManager {
             return true;
         } else {
             // Modo una palabra: no hay más palabras
+            this.turnPoints++;
             return false;
         }
     }
