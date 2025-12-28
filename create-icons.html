@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generador de Iconos PWA</title>
+</head>
+<body>
+    <h1>Generador de Iconos para PWA</h1>
+    <p>Haz clic en los botones para generar y descargar los iconos:</p>
+    <button onclick="generateIcon(192)">Generar icon-192.png</button>
+    <button onclick="generateIcon(512)">Generar icon-512.png</button>
+    
+    <canvas id="canvas" style="display: none;"></canvas>
+    
+    <script>
+        function generateIcon(size) {
+            const canvas = document.getElementById('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Fondo azul
+            ctx.fillStyle = '#2d5aa0';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Borde blanco
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = size / 20;
+            ctx.strokeRect(size * 0.1, size * 0.1, size * 0.8, size * 0.8);
+            
+            // Letra M blanca
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `bold ${size * 0.5}px Arial`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('M', size / 2, size / 2);
+            
+            // Descargar
+            canvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+    </script>
+</body>
+</html>
+

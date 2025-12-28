@@ -360,10 +360,11 @@ function showScreen(state) {
     const screenId = screenMap[state];
     if (screenId) {
         document.getElementById(screenId).classList.add('active');
-        // Actualizar elementos enfocables
+        // Actualizar elementos enfocables y enfocar el primero
         setTimeout(() => {
             navigationManager.updateFocusableElements();
-        }, 100);
+            navigationManager.focusFirst();
+        }, 150);
     }
 }
 

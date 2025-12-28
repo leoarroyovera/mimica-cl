@@ -412,9 +412,20 @@ h3 {
     animation: fadeIn 0.3s ease;
 }
 
-/* Asegurar que los elementos enfocados sean visibles */
+/* Asegurar que los elementos enfocados sean muy visibles */
 *:focus-visible {
-    outline: var(--focus-outline);
-    outline-offset: 4px;
+    outline: 4px solid var(--focus-color) !important;
+    outline-offset: 4px !important;
+    box-shadow: 0 0 20px rgba(74, 144, 226, 0.6) !important;
+}
+
+button:focus,
+button:focus-visible {
+    outline: 4px solid var(--focus-color) !important;
+    outline-offset: 4px !important;
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(74, 144, 226, 0.8) !important;
+    z-index: 1000;
+    position: relative;
 }
 

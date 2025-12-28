@@ -18,8 +18,3 @@ npm-debug.log*
 *.tmp
 *.temp
 
-# Servidores locales (opcional - puedes comentar estas líneas si quieres subirlos)
-# server.py
-# server.js
-# start-server.bat
-
