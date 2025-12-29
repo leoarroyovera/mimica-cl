@@ -377,6 +377,23 @@ function endTurn() {
         }
         
         scoreboardEl.appendChild(teamItem);
+        
+        // Forzar reflow para activar la animación del badge
+        if (index === turnResult.scoringTeamIndex && turnResult.turnPoints > 0) {
+            // Pequeño delay para asegurar que el DOM se actualice
+            requestAnimationFrame(() => {
+                const badge = teamItem.querySelector('.points-badge');
+                if (badge) {
+                    // Forzar reflow
+                    void badge.offsetWidth;
+                    // Reiniciar animación
+                    badge.style.animation = 'none';
+                    requestAnimationFrame(() => {
+                        badge.style.animation = '';
+                    });
+                }
+            });
+        }
     });
 
     showScreen(AppState.TURN_END);
