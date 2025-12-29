@@ -372,6 +372,78 @@ h3 {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     font-size: 1.8rem;
+    transition: all 0.3s ease;
+}
+
+.team-score-item.scoring-team {
+    animation: scoreAnimation 1.5s ease-out;
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+@keyframes scoreAnimation {
+    0% {
+        transform: scale(1);
+        background: rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        transform: scale(1.1);
+        background: rgba(255, 255, 255, 0.3);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        transform: scale(1.05);
+        background: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.team-score-points {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.points-before {
+    opacity: 0.5;
+    text-decoration: line-through;
+}
+
+.points-added {
+    color: var(--success-color);
+    font-weight: bold;
+    font-size: 1.2em;
+    animation: pointsAddedAnimation 1s ease-out;
+}
+
+@keyframes pointsAddedAnimation {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(0) scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.points-total {
+    font-weight: bold;
+    animation: pointsTotalAnimation 1s ease-out 0.5s both;
+}
+
+@keyframes pointsTotalAnimation {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .team-score-name {
