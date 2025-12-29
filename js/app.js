@@ -53,11 +53,38 @@ function isFullscreen() {
 
 // Inicialización
 document.addEventListener('DOMContentLoaded', () => {
-    // Registrar Service Worker
+    // Registrar Service Worker con estrategia de actualización
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker registrado'))
+            .then(reg => {
+                console.log('Service Worker registrado');
+                
+                // Verificar actualizaciones periódicamente
+                setInterval(() => {
+                    reg.update();
+                }, 60000); // Cada minuto
+                
+                // Escuchar actualizaciones del Service Worker
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // Hay una nueva versión disponible
+                            console.log('Nueva versión disponible, recargando...');
+                            // Forzar recarga después de un breve delay
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        }
+                    });
+                });
+            })
             .catch(err => console.log('Error registrando Service Worker:', err));
+        
+        // Forzar actualización al cargar
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+        }
     }
 
     initMenu();
