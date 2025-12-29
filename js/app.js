@@ -351,8 +351,7 @@ function endTurn() {
     const scoringTeam = gameManager.teams[scoringTeamIndex];
     
     // Debug: verificar valores
-    console.log(`[DEBUG] scoringTeamIndex=${scoringTeamIndex}, turnPoints=${turnResult.turnPoints}`);
-    console.log(`[DEBUG] scoringTeam name=${scoringTeam.name}, color=${scoringTeam.color}`);
+    console.log(`[DEBUG] Modo: ${gameManager.config.wordsMode}, scoringTeamIndex=${scoringTeamIndex}, turnPoints=${turnResult.turnPoints}`);
     
     // Mostrar marcador con animación
     const scoreboardEl = document.getElementById('scoreboard-teams');
@@ -374,6 +373,7 @@ function endTurn() {
                 <span class="team-score-points">${team.points}</span>
             `;
             teamItem.classList.add('scoring-team');
+            console.log(`[DEBUG] Badge creado para ${team.name}: +${turnResult.turnPoints} puntos`);
         } else {
             teamItem.innerHTML = `
                 <div class="team-score-left">
@@ -385,6 +385,20 @@ function endTurn() {
         
         scoreboardEl.appendChild(teamItem);
     });
+    
+    // Verificar que el badge existe después de agregar al DOM
+    if (turnResult.turnPoints > 0) {
+        setTimeout(() => {
+            const badge = document.querySelector('.points-badge');
+            if (badge) {
+                console.log(`[DEBUG] Badge encontrado en DOM después de 100ms:`, badge.textContent);
+                const style = window.getComputedStyle(badge);
+                console.log(`[DEBUG] Badge styles: display=${style.display}, opacity=${style.opacity}, visibility=${style.visibility}`);
+            } else {
+                console.error(`[DEBUG] ERROR: Badge NO encontrado en DOM después de 100ms`);
+            }
+        }, 100);
+    }
 
     showScreen(AppState.TURN_END);
     navigationManager.focusElement('continue-btn');
