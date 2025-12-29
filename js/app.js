@@ -230,9 +230,9 @@ function showGameScreen() {
     const isMultipleWords = gameManager.config.wordsMode === 'multiple';
     const canGoBack = gameManager.currentWordIndex > 0;
 
-    // Mostrar número de turno
-    const currentTurn = gameManager.getCurrentTurnNumber();
-    document.getElementById('turn-number').textContent = `Turno ${currentTurn}`;
+    // Mostrar número de ronda
+    const currentRound = gameManager.currentRound + 1;
+    document.getElementById('round-number').textContent = `Ronda ${currentRound}`;
 
     // Mostrar palabra
     document.getElementById('word-text').textContent = word;
