@@ -226,10 +226,15 @@ class GameManager {
         
         // Actualizar puntos del equipo actual
         const teamIndex = this.teamOrder[this.currentTeamIndex % this.teamOrder.length];
-        this.teams[teamIndex].points += this.turnPoints;
+        
+        // Guardar los puntos ganados en este turno antes de resetear
+        const pointsEarned = this.turnPoints;
+        
+        // Sumar puntos al equipo
+        this.teams[teamIndex].points += pointsEarned;
 
         return {
-            turnPoints: this.turnPoints,
+            turnPoints: pointsEarned,
             teams: [...this.teams],
             scoringTeamIndex: teamIndex  // Retornar el índice del equipo que ganó puntos
         };
