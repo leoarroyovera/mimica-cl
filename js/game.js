@@ -169,8 +169,9 @@ class GameManager {
             this.turnPoints++;
             return true;
         } else {
-            // Modo una palabra: no hay más palabras
-            this.turnPoints++;
+            // Modo una palabra: marcar que se adivinó (se suma 1 punto al final del turno)
+            // No sumar aquí, solo marcar que se adivinó
+            this.turnPoints = 1; // Marcar que adivinaron la palabra
             return false;
         }
     }
