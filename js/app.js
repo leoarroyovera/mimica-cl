@@ -390,27 +390,32 @@ function endTurn() {
         
         // Forzar reflow para activar la animación del badge
         if (isScoringTeam) {
-            // Pequeño delay para asegurar que el DOM se actualice
-            requestAnimationFrame(() => {
+            // Pequeño delay para asegurar que el DOM se actualice y la animación CSS se ejecute
+            setTimeout(() => {
                 const badge = teamItem.querySelector('.points-badge');
                 console.log(`[DEBUG] Badge encontrado:`, badge);
                 if (badge) {
-                    console.log(`[DEBUG] Badge encontrado, forzando animación`);
-                    // Asegurar que el badge sea visible antes de animar
-                    badge.style.opacity = '1';
-                    badge.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-                    // Forzar reflow
-                    void badge.offsetWidth;
-                    // Reiniciar animación
-                    badge.style.animation = 'none';
-                    requestAnimationFrame(() => {
-                        badge.style.animation = '';
-                        console.log(`[DEBUG] Animación reiniciada`);
-                    });
+                    console.log(`[DEBUG] Badge encontrado, verificando visibilidad`);
+                    // Verificar que el badge esté visible
+                    const computedStyle = window.getComputedStyle(badge);
+                    console.log(`[DEBUG] Badge display: ${computedStyle.display}, opacity: ${computedStyle.opacity}, visibility: ${computedStyle.visibility}`);
+                    
+                    // Si la animación no se ejecutó, forzarla
+                    if (computedStyle.opacity === '0' || badge.style.animation === 'none') {
+                        console.log(`[DEBUG] Forzando animación del badge`);
+                        // Forzar reflow
+                        void badge.offsetWidth;
+                        // Reiniciar animación
+                        badge.style.animation = 'none';
+                        requestAnimationFrame(() => {
+                            badge.style.animation = '';
+                            console.log(`[DEBUG] Animación reiniciada`);
+                        });
+                    }
                 } else {
                     console.error(`[DEBUG] ERROR: Badge no encontrado en el DOM!`);
                 }
-            });
+            }, 50);
         }
     });
 
