@@ -153,6 +153,7 @@ class GameManager {
             // Sumar punto por la palabra actual que acaban de adivinar
             // (antes de avanzar a la siguiente)
             this.turnPoints++;
+            console.log(`[DEBUG] Presionado Siguiente: turnPoints ahora = ${this.turnPoints}`);
             
             // Obtener palabras disponibles (que no se hayan usado)
             const availableWords = this.currentCategory.palabras.filter(
@@ -235,8 +236,14 @@ class GameManager {
         // En modo single, turnPoints es 1 si adivinaron, 0 si no
         const pointsEarned = this.turnPoints;
         
+        // Debug: verificar puntos antes de sumar
+        const pointsBefore = this.teams[teamIndex].points;
+        
         // Sumar puntos al equipo (solo una vez)
         this.teams[teamIndex].points += pointsEarned;
+        
+        // Debug: verificar puntos después de sumar
+        console.log(`[DEBUG] Equipo ${this.teams[teamIndex].name}: Puntos antes=${pointsBefore}, Ganados=${pointsEarned}, Total=${this.teams[teamIndex].points}`);
         
         // Resetear turnPoints para el siguiente turno
         this.turnPoints = 0;
