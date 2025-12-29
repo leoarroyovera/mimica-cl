@@ -393,14 +393,19 @@ function endTurn() {
             // Pequeño delay para asegurar que el DOM se actualice
             requestAnimationFrame(() => {
                 const badge = teamItem.querySelector('.points-badge');
+                console.log(`[DEBUG] Badge encontrado:`, badge);
                 if (badge) {
+                    console.log(`[DEBUG] Badge encontrado, forzando animación`);
                     // Forzar reflow
                     void badge.offsetWidth;
                     // Reiniciar animación
                     badge.style.animation = 'none';
                     requestAnimationFrame(() => {
                         badge.style.animation = '';
+                        console.log(`[DEBUG] Animación reiniciada`);
                     });
+                } else {
+                    console.error(`[DEBUG] ERROR: Badge no encontrado en el DOM!`);
                 }
             });
         }
