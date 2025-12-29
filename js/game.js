@@ -150,6 +150,10 @@ class GameManager {
     nextWord() {
         // Si es modo múltiples palabras, seleccionar nueva palabra aleatoria
         if (this.config.wordsMode === 'multiple') {
+            // Sumar punto por la palabra actual que acaban de adivinar
+            // (antes de avanzar a la siguiente)
+            this.turnPoints++;
+            
             // Obtener palabras disponibles (que no se hayan usado)
             const availableWords = this.currentCategory.palabras.filter(
                 word => !this.usedWords.has(word)
@@ -166,7 +170,6 @@ class GameManager {
             this.usedWords.add(newWord);
             this.currentWords.push(newWord);
             this.currentWordIndex++;
-            this.turnPoints++;
             return true;
         } else {
             // Modo una palabra: marcar que se adivinó (se suma 1 punto al final del turno)
@@ -228,10 +231,15 @@ class GameManager {
         const teamIndex = this.teamOrder[this.currentTeamIndex % this.teamOrder.length];
         
         // Guardar los puntos ganados en este turno antes de resetear
+        // En modo múltiple, turnPoints ya tiene el conteo correcto de palabras adivinadas
+        // En modo single, turnPoints es 1 si adivinaron, 0 si no
         const pointsEarned = this.turnPoints;
         
-        // Sumar puntos al equipo
+        // Sumar puntos al equipo (solo una vez)
         this.teams[teamIndex].points += pointsEarned;
+        
+        // Resetear turnPoints para el siguiente turno
+        this.turnPoints = 0;
 
         return {
             turnPoints: pointsEarned,
