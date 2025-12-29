@@ -363,34 +363,17 @@ function endTurn() {
         teamItem.className = `team-score-item ${team.class}`;
         
         // Si es el equipo que ganó puntos, mostrar badge animado
-        // Comparar por índice del equipo en el array teams
         const isScoringTeam = (index === scoringTeamIndex) && (turnResult.turnPoints > 0);
-        console.log(`[DEBUG] Team ${index} (${team.name}): isScoringTeam=${isScoringTeam}, index=${index}, scoringTeamIndex=${scoringTeamIndex}, turnPoints=${turnResult.turnPoints}`);
         
         if (isScoringTeam) {
-            // Crear elementos del badge manualmente para asegurar que la animación funcione
-            const teamScoreLeft = document.createElement('div');
-            teamScoreLeft.className = 'team-score-left';
-            
-            const teamScoreName = document.createElement('span');
-            teamScoreName.className = 'team-score-name';
-            teamScoreName.textContent = `Equipo ${team.name}`;
-            
-            const pointsBadge = document.createElement('span');
-            pointsBadge.className = 'points-badge';
-            pointsBadge.textContent = `+${turnResult.turnPoints}`;
-            
-            const teamScorePoints = document.createElement('span');
-            teamScorePoints.className = 'team-score-points';
-            teamScorePoints.textContent = team.points;
-            
-            teamScoreLeft.appendChild(teamScoreName);
-            teamScoreLeft.appendChild(pointsBadge);
-            teamItem.appendChild(teamScoreLeft);
-            teamItem.appendChild(teamScorePoints);
-            
+            teamItem.innerHTML = `
+                <div class="team-score-left">
+                    <span class="team-score-name">Equipo ${team.name}</span>
+                    <span class="points-badge">+${turnResult.turnPoints}</span>
+                </div>
+                <span class="team-score-points">${team.points}</span>
+            `;
             teamItem.classList.add('scoring-team');
-            console.log(`[DEBUG] Badge creado para equipo ${team.name} con +${turnResult.turnPoints}`);
         } else {
             teamItem.innerHTML = `
                 <div class="team-score-left">
@@ -401,9 +384,6 @@ function endTurn() {
         }
         
         scoreboardEl.appendChild(teamItem);
-        
-        // La animación CSS se ejecutará automáticamente cuando el elemento se agregue al DOM
-        // No necesitamos forzar nada, la animación badgeAnimation se ejecutará naturalmente
     });
 
     showScreen(AppState.TURN_END);
