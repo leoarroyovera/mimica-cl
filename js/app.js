@@ -396,6 +396,9 @@ function endTurn() {
                 console.log(`[DEBUG] Badge encontrado:`, badge);
                 if (badge) {
                     console.log(`[DEBUG] Badge encontrado, forzando animación`);
+                    // Asegurar que el badge sea visible antes de animar
+                    badge.style.opacity = '1';
+                    badge.style.transform = 'translateY(0) scale(1) rotate(0deg)';
                     // Forzar reflow
                     void badge.offsetWidth;
                     // Reiniciar animación
