@@ -229,7 +229,8 @@ class GameManager {
 
         return {
             turnPoints: this.turnPoints,
-            teams: [...this.teams]
+            teams: [...this.teams],
+            scoringTeamIndex: teamIndex  // Retornar el índice del equipo que ganó puntos
         };
     }
 

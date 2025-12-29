@@ -346,9 +346,8 @@ function endTurn() {
     
     const turnResult = gameManager.endTurn();
     
-    // Obtener el equipo que ganó puntos en este turno
-    const teamIndex = gameManager.teamOrder[(gameManager.currentTeamIndex - 1 + gameManager.teamOrder.length) % gameManager.teamOrder.length];
-    const scoringTeam = gameManager.teams[teamIndex];
+    // Obtener el equipo que ganó puntos en este turno (desde el resultado)
+    const scoringTeam = gameManager.teams[turnResult.scoringTeamIndex];
     
     // Mostrar marcador con animación
     const scoreboardEl = document.getElementById('scoreboard-teams');
@@ -359,7 +358,7 @@ function endTurn() {
         teamItem.className = `team-score-item ${team.class}`;
         
         // Si es el equipo que ganó puntos, mostrar badge animado
-        if (team.color === scoringTeam.color && turnResult.turnPoints > 0) {
+        if (index === turnResult.scoringTeamIndex && turnResult.turnPoints > 0) {
             teamItem.innerHTML = `
                 <div class="team-score-left">
                     <span class="team-score-name">Equipo ${team.name}</span>
