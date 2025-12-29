@@ -335,10 +335,20 @@ function handlePreviousWord() {
     showGameScreen();
 }
 
+// Variable para evitar que endTurn se ejecute múltiples veces
+let isEndingTurn = false;
+
 /**
  * Finaliza el turno
  */
 function endTurn() {
+    // Evitar ejecución múltiple
+    if (isEndingTurn) {
+        console.log('[DEBUG] endTurn ya está en ejecución, ignorando llamada duplicada');
+        return;
+    }
+    
+    isEndingTurn = true;
     gameManager.stopTimer();
     
     // Restaurar fondo por defecto
@@ -402,6 +412,11 @@ function endTurn() {
 
     showScreen(AppState.TURN_END);
     navigationManager.focusElement('continue-btn');
+    
+    // Resetear flag después de un breve delay para permitir que la pantalla se muestre
+    setTimeout(() => {
+        isEndingTurn = false;
+    }, 500);
 }
 
 /**
