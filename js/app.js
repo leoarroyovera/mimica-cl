@@ -260,7 +260,7 @@ function showGameScreen() {
     // Mostrar número de ronda en formato X/Total
     const currentRound = gameManager.currentRound + 1;
     const totalRounds = gameManager.config.rounds;
-    document.getElementById('round-number').textContent = `${currentRound}/${totalRounds}`;
+    document.getElementById('round-number').textContent = `Ronda ${currentRound}/${totalRounds}`;
 
     // Mostrar palabra
     document.getElementById('word-text').textContent = word;
@@ -349,7 +349,6 @@ function endTurn() {
     // Obtener el equipo que ganó puntos en este turno
     const teamIndex = gameManager.teamOrder[(gameManager.currentTeamIndex - 1 + gameManager.teamOrder.length) % gameManager.teamOrder.length];
     const scoringTeam = gameManager.teams[teamIndex];
-    const pointsBefore = scoringTeam.points - turnResult.turnPoints;
     
     // Mostrar marcador con animación
     const scoreboardEl = document.getElementById('scoreboard-teams');
@@ -359,20 +358,21 @@ function endTurn() {
         const teamItem = document.createElement('div');
         teamItem.className = `team-score-item ${team.class}`;
         
-        // Si es el equipo que ganó puntos, mostrar animación
-        if (team.color === scoringTeam.color) {
+        // Si es el equipo que ganó puntos, mostrar badge animado
+        if (team.color === scoringTeam.color && turnResult.turnPoints > 0) {
             teamItem.innerHTML = `
-                <span class="team-score-name">Equipo ${team.name}</span>
-                <span class="team-score-points">
-                    <span class="points-before">${pointsBefore}</span>
-                    <span class="points-added">+${turnResult.turnPoints}</span>
-                    <span class="points-total">${team.points}</span>
-                </span>
+                <div class="team-score-left">
+                    <span class="team-score-name">Equipo ${team.name}</span>
+                    <span class="points-badge">+${turnResult.turnPoints}</span>
+                </div>
+                <span class="team-score-points">${team.points}</span>
             `;
             teamItem.classList.add('scoring-team');
         } else {
             teamItem.innerHTML = `
-                <span class="team-score-name">Equipo ${team.name}</span>
+                <div class="team-score-left">
+                    <span class="team-score-name">Equipo ${team.name}</span>
+                </div>
                 <span class="team-score-points">${team.points}</span>
             `;
         }
