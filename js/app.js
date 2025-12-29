@@ -368,13 +368,27 @@ function endTurn() {
         console.log(`[DEBUG] Team ${index} (${team.name}): isScoringTeam=${isScoringTeam}, index=${index}, scoringTeamIndex=${scoringTeamIndex}, turnPoints=${turnResult.turnPoints}`);
         
         if (isScoringTeam) {
-            teamItem.innerHTML = `
-                <div class="team-score-left">
-                    <span class="team-score-name">Equipo ${team.name}</span>
-                    <span class="points-badge">+${turnResult.turnPoints}</span>
-                </div>
-                <span class="team-score-points">${team.points}</span>
-            `;
+            // Crear elementos del badge manualmente para asegurar que la animación funcione
+            const teamScoreLeft = document.createElement('div');
+            teamScoreLeft.className = 'team-score-left';
+            
+            const teamScoreName = document.createElement('span');
+            teamScoreName.className = 'team-score-name';
+            teamScoreName.textContent = `Equipo ${team.name}`;
+            
+            const pointsBadge = document.createElement('span');
+            pointsBadge.className = 'points-badge';
+            pointsBadge.textContent = `+${turnResult.turnPoints}`;
+            
+            const teamScorePoints = document.createElement('span');
+            teamScorePoints.className = 'team-score-points';
+            teamScorePoints.textContent = team.points;
+            
+            teamScoreLeft.appendChild(teamScoreName);
+            teamScoreLeft.appendChild(pointsBadge);
+            teamItem.appendChild(teamScoreLeft);
+            teamItem.appendChild(teamScorePoints);
+            
             teamItem.classList.add('scoring-team');
             console.log(`[DEBUG] Badge creado para equipo ${team.name} con +${turnResult.turnPoints}`);
         } else {
@@ -388,35 +402,8 @@ function endTurn() {
         
         scoreboardEl.appendChild(teamItem);
         
-        // Forzar reflow para activar la animación del badge
-        if (isScoringTeam) {
-            // Pequeño delay para asegurar que el DOM se actualice y la animación CSS se ejecute
-            setTimeout(() => {
-                const badge = teamItem.querySelector('.points-badge');
-                console.log(`[DEBUG] Badge encontrado:`, badge);
-                if (badge) {
-                    console.log(`[DEBUG] Badge encontrado, verificando visibilidad`);
-                    // Verificar que el badge esté visible
-                    const computedStyle = window.getComputedStyle(badge);
-                    console.log(`[DEBUG] Badge display: ${computedStyle.display}, opacity: ${computedStyle.opacity}, visibility: ${computedStyle.visibility}`);
-                    
-                    // Si la animación no se ejecutó, forzarla
-                    if (computedStyle.opacity === '0' || badge.style.animation === 'none') {
-                        console.log(`[DEBUG] Forzando animación del badge`);
-                        // Forzar reflow
-                        void badge.offsetWidth;
-                        // Reiniciar animación
-                        badge.style.animation = 'none';
-                        requestAnimationFrame(() => {
-                            badge.style.animation = '';
-                            console.log(`[DEBUG] Animación reiniciada`);
-                        });
-                    }
-                } else {
-                    console.error(`[DEBUG] ERROR: Badge no encontrado en el DOM!`);
-                }
-            }, 50);
-        }
+        // La animación CSS se ejecutará automáticamente cuando el elemento se agregue al DOM
+        // No necesitamos forzar nada, la animación badgeAnimation se ejecutará naturalmente
     });
 
     showScreen(AppState.TURN_END);
