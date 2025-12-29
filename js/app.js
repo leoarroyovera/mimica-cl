@@ -353,6 +353,9 @@ function endTurn() {
         scoreboardEl.appendChild(teamItem);
     });
 
+    showScreen(AppState.TURN_END);
+    navigationManager.focusElement('continue-btn');
+}
 
 /**
  * Continúa al siguiente turno
