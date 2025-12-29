@@ -346,14 +346,13 @@ function endTurn() {
     
     const turnResult = gameManager.endTurn();
     
-    // Debug: verificar valores
-    console.log(`[DEBUG] scoringTeamIndex=${turnResult.scoringTeamIndex}, turnPoints=${turnResult.turnPoints}`);
-    turnResult.teams.forEach((team, idx) => {
-        console.log(`[DEBUG] Team ${idx}: ${team.name}, points=${team.points}`);
-    });
-    
     // Obtener el equipo que ganó puntos en este turno (desde el resultado)
-    const scoringTeam = gameManager.teams[turnResult.scoringTeamIndex];
+    const scoringTeamIndex = turnResult.scoringTeamIndex;
+    const scoringTeam = gameManager.teams[scoringTeamIndex];
+    
+    // Debug: verificar valores
+    console.log(`[DEBUG] scoringTeamIndex=${scoringTeamIndex}, turnPoints=${turnResult.turnPoints}`);
+    console.log(`[DEBUG] scoringTeam name=${scoringTeam.name}, color=${scoringTeam.color}`);
     
     // Mostrar marcador con animación
     const scoreboardEl = document.getElementById('scoreboard-teams');
@@ -365,7 +364,10 @@ function endTurn() {
         
         // Si es el equipo que ganó puntos, mostrar badge animado
         // Comparar por índice del equipo en el array teams
-        if (index === turnResult.scoringTeamIndex && turnResult.turnPoints > 0) {
+        const isScoringTeam = (index === scoringTeamIndex) && (turnResult.turnPoints > 0);
+        console.log(`[DEBUG] Team ${index} (${team.name}): isScoringTeam=${isScoringTeam}, index=${index}, scoringTeamIndex=${scoringTeamIndex}, turnPoints=${turnResult.turnPoints}`);
+        
+        if (isScoringTeam) {
             teamItem.innerHTML = `
                 <div class="team-score-left">
                     <span class="team-score-name">Equipo ${team.name}</span>
