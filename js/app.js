@@ -376,6 +376,7 @@ function endTurn() {
                 <span class="team-score-points">${team.points}</span>
             `;
             teamItem.classList.add('scoring-team');
+            console.log(`[DEBUG] Badge creado para equipo ${team.name} con +${turnResult.turnPoints}`);
         } else {
             teamItem.innerHTML = `
                 <div class="team-score-left">
@@ -388,7 +389,7 @@ function endTurn() {
         scoreboardEl.appendChild(teamItem);
         
         // Forzar reflow para activar la animación del badge
-        if (index === turnResult.scoringTeamIndex && turnResult.turnPoints > 0) {
+        if (isScoringTeam) {
             // Pequeño delay para asegurar que el DOM se actualice
             requestAnimationFrame(() => {
                 const badge = teamItem.querySelector('.points-badge');
